@@ -204,10 +204,13 @@ class IconicFont(QObject):
             return result
 
         if directory is None:
-            directory = os.path.join(
-                getattr(sys, '_MEIPASS',
-                        os.path.dirname(os.path.realpath(__file__))),
-                'fonts')
+            try:
+                # Get the pyinstaller directory if it's available.
+                directory = os.path.join(sys._MEIPASS, 'qtawesome', 'fonts')
+            except AttributeError:
+                directory = os.path.join(
+                    os.path.dirname(os.path.realpath(__file__)),
+                    'fonts')
 
         # Load font
         if QApplication.instance() is not None:
