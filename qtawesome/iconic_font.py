@@ -19,6 +19,7 @@ import json
 import os
 import hashlib
 import warnings
+import sys
 
 # Third party imports
 from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
@@ -86,7 +87,7 @@ class CharIconPainter:
                 QIcon.Active: (options['color_on_active'],
                                options['on_active']),
                 QIcon.Selected: (options['color_on_selected'],
-                                 options['on_selected']) 
+                                 options['on_selected'])
             },
 
             QIcon.Off: {
@@ -96,7 +97,7 @@ class CharIconPainter:
                 QIcon.Active: (options['color_off_active'],
                                options['off_active']),
                 QIcon.Selected: (options['color_off_selected'],
-                                 options['off_selected']) 
+                                 options['off_selected'])
             }
         }
 
@@ -204,7 +205,9 @@ class IconicFont(QObject):
 
         if directory is None:
             directory = os.path.join(
-                os.path.dirname(os.path.realpath(__file__)), 'fonts')
+                getattr(sys, '_MEIPASS',
+                        os.path.dirname(os.path.realpath(__file__))),
+                'fonts')
 
         # Load font
         if QApplication.instance() is not None:
